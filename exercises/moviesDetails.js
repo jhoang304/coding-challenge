@@ -18,17 +18,22 @@ module.exports.run = async function (movies) {
 	*/
 	const axios = require('axios');
 
-	const moviePromises = movies.map(url => axios.get(url));
-	const responses = await Promise.all(moviePromises);
+	try {
+		const moviePromises = movies.map(url => axios.get(url));
+		const responses = await Promise.all(moviePromises);
 
-	const results = responses.map(response => {
-		const data = response.data;
-		return {
-			Title: data.Title,
-			Year: data.Year,
-			Genre: data.Genre,
-		};
-	});
+		const results = responses.map(response => {
+			const data = response.data;
+			return {
+				Title: data.Title,
+				Year: data.Year,
+				Genre: data.Genre,
+			};
+		});
 
-	return results;
+		return results;
+	} catch (error) {
+		console.error('Error fetching movie details:', error);
+		throw error;
+	}
 };
