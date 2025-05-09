@@ -20,11 +20,11 @@ module.exports.run = function (csv) {
 	const result = [];
 
 	for (let i = 1; i < rows.length; i++) {
-		const row = rows[i].split(',');
+		const values = rows[i].split(',');
 		const obj = {};
-		for (let j = 0; j < headers.length; j++) {
-			obj[headers[j]] = row[j];
-		}
+		headers.forEach((header, index) => {
+			obj[header] = values[index];
+		});
 		result.push(obj);
 	}
 

@@ -17,16 +17,18 @@ module.exports.run = async function (movies) {
 		Write your code below the comment.
 	*/
 	const axios = require('axios');
-	const results = [];
 
-	for (const url of movies) {
-		const response = await axios.get(url);
+	const moviePromises = movies.map(url => axios.get(url));
+	const responses = await Promise.all(moviePromises);
+
+	const results = responses.map(response => {
 		const data = response.data;
-		results.push({
+		return {
 			Title: data.Title,
 			Year: data.Year,
 			Genre: data.Genre,
-		});
-	}
+		};
+	});
+
 	return results;
 };
